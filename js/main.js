@@ -4,11 +4,15 @@ var Song = Backbone.Model.extend({
     },
     defaults: {
         genre: 'Jazz'
+    },
+    validate: function (attrs) {
+        if(! attrs.artist)
+            return 'Artist is required.';
     }
 });
 
 // with instantiating
-var song = new Song({author: 'Alex'});
+var song = new Song({title: 'kan'});
 // with set
 song.set('name', 'My fav song');
 // with set using object with multiple attributes
@@ -24,6 +28,8 @@ console.log('Remove attr, title', song.unset('title'));
 
 console.log('HasAttr, title: ', song.has('title'));
 
+console.log('Is model valid: ', song.isValid());
+
 // console.log('Remove all attr', song.clear());
 setTimeout(function () {
     song.clear();
@@ -31,6 +37,6 @@ setTimeout(function () {
 }, 5000);
 
 setTimeout(function () {
-    console.log('inside')
+    console.log('Inside:')
 }, 1000);
 
