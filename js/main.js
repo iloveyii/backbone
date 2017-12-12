@@ -1,5 +1,12 @@
+console.log2 = function (msg) {
+    document.write('<pre>');
+    document.write(msg + '<br />');
+    document.write('</pre>');
+};
+
 var Song = Backbone.Model.extend({
     initialize: function () {
+
         console.log('A new song has been created.');
     },
     defaults: {
@@ -13,7 +20,7 @@ var Song = Backbone.Model.extend({
 
             console.log('Key, Rule: ', attrs[key], rules[key]);
             console.log(this.applyRule(attrs[key], rules[key]));
-            console.log('------------------');
+            console.log('------------------------------------');
         }
     },
     applyRule: function (attr, rule) {
@@ -23,7 +30,7 @@ var Song = Backbone.Model.extend({
         switch(rule) {
             case 'integer':
                 console.log('Applying rule integer on ', attr);
-                return Number.isInteger(attr) ? attr + ' is an integer' : attr + ' is not an integer';
+                return Number.isInteger(parseInt(attr)) ? attr + ' is an integer' : attr + ' is not an integer';
                 break;
             case 'required':
                 console.log('Applying rule required on ', attr);
@@ -49,7 +56,7 @@ var Song = Backbone.Model.extend({
 });
 
 // with instantiating
-var song = new Song({id: 10, title: 'kan'});
+var song = new Song({id: '10', title: 'kan'});
 // with set
 song.set('name', 'My fav song');
 // with set using object with multiple attributes
