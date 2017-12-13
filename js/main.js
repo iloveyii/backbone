@@ -13,14 +13,8 @@ console.log2 = function (x, y) {
     document.write('</pre>');
 };
 
-var Song = Backbone.Model.extend({
-    initialize: function () {
+var Model = Backbone.Model.extend({
 
-        console.log('A new song has been created.');
-    },
-    defaults: {
-        genre: 'Jazz'
-    },
     checkValidation: function (attrs, rules) {
         for(var key in rules) {
             if( ! attrs[key]) {
@@ -50,8 +44,17 @@ var Song = Backbone.Model.extend({
                 return typeof attr == 'string' ? attr + ' is string' : attr + ' is not string';
                 break;
         }
-    },
+    }
 
+});
+
+var Song = Model.extend({
+    initialize: function () {
+        console.log('A new song has been created.');
+    },
+    defaults: {
+        genre: 'Jazz'
+    },
     validate: function (attrs) {
 
         var rules = {
