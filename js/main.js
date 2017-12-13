@@ -1,6 +1,15 @@
-console.log2 = function (msg) {
+console.log2 = function (x, y) {
     document.write('<pre>');
-    document.write(msg + '<br />');
+
+    if(y instanceof Song) {
+        document.write(x + '<br />');
+        for(var k in y) {
+            document.write(k + ' : ' + y[k] + '<br />');
+        }
+    } else {
+        document.write(x + y + '<br />');
+    }
+
     document.write('</pre>');
 };
 
