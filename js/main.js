@@ -44,6 +44,9 @@ var Model = Backbone.Model.extend({
                 return typeof attr == 'string' ? attr + ' is string' : attr + ' is not string';
                 break;
         }
+    },
+    commonMethod: function () {
+        console.log('This is a common method from the parent.');
     }
 
 });
@@ -51,6 +54,10 @@ var Model = Backbone.Model.extend({
 var Song = Model.extend({
     initialize: function () {
         console.log('A new song has been created.');
+    },
+    commonMethod: function () {
+        Model.prototype.commonMethod();
+        console.log('This is a common method from the child.');
     },
     defaults: {
         genre: 'Jazz'
@@ -68,7 +75,7 @@ var Song = Model.extend({
 });
 
 // with instantiating
-var song = new Song({id: '10', title: 'kan'});
+var song = new Song({id: '10', title: 'Kan'});
 // with set
 song.set('name', 'My fav song');
 // with set using object with multiple attributes
@@ -85,6 +92,7 @@ console.log('Get attr, title:', song.get('title'));
 console.log('HasAttr, title: ', song.has('title'));
 
 console.log('Is model valid: ', song.isValid());
+song.commonMethod();
 
 
 
