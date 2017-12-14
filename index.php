@@ -7,6 +7,12 @@ $songs = [
         'artist'=>'Some Singer'
     ],
     [
+        'id'=>10,
+        'title'=>'A lovely song',
+        'author'=>'Some Lover',
+        'artist'=>'Some Singer'
+    ],
+    [
         'id'=>2,
         'title'=>'A romantic song',
         'author'=>'Some Romeo',
@@ -25,10 +31,10 @@ $path = isset($_GET['path']) ? $_GET['path'] : '/';
 
 preg_match('~[A-Z]*/[A-Z]*/(\d+)~i', $path, $matches);
 
-// api/song ?
+// api/songs/id ?
 if(count($matches) == 2) {
     $id = $matches[1];
-    $path = 'api/song';
+    $path = 'api/songs';
 }
 
 switch ($path) {
@@ -37,18 +43,17 @@ switch ($path) {
         break;
 
     case 'api/songs':
-        header('Content-Type: application/json');
-        echo json_encode($songs);
-        die(0);
-        break;
 
-    case 'api/song':
         header('Content-Type: application/json');
-        $song = array_filter($songs, function ($song) use ($id) {
-            return $song['id'] == $id;
-        });
-
-        echo json_encode($song);
+        if($id == 0) {
+            echo json_encode($songs);
+        } else {
+            $song = array_filter($songs, function ($song) use ($id) {
+                return $song['id'] == $id;
+            });
+            $song = empty($song) ? ['id' => 0] : array_shift($song);
+            echo json_encode($song);
+        }
 
         die(0);
         break;
@@ -64,7 +69,7 @@ switch ($path) {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Backbone JS</title>
+    <title>Backbone JS - Main</title>
     <link rel="icon" href="/favicon.png">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">

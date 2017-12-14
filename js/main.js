@@ -52,6 +52,8 @@ var Model = Backbone.Model.extend({
 });
 
 var Song = Model.extend({
+
+    urlRoot: '/api/songs',
     initialize: function () {
         console.log('A new song has been created.');
     },
@@ -59,9 +61,7 @@ var Song = Model.extend({
         Model.prototype.commonMethod();
         console.log('This is a common method from the child.');
     },
-    defaults: {
-        genre: 'Jazz'
-    },
+
     validate: function (attrs) {
 
         var rules = {
@@ -93,6 +93,10 @@ console.log('HasAttr, title: ', song.has('title'));
 
 console.log('Is model valid: ', song.isValid());
 song.commonMethod();
+
+var song1 = new Song({id : 2});
+song.fetch({id : 2});
+console.log('Fetched song: ', song1); // the id sent to server is wrong as 10
 
 
 
