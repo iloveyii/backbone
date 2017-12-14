@@ -95,13 +95,21 @@ console.log('Is model valid: ', song.isValid());
 song.commonMethod();
 
 var song1 = new Song({id : 2});
-song.fetch({id : 2});
+song.fetch({
+        success: function (resp) {
+            console.log('Resp: ', resp);
+        },
+        error: function () {
+        }
+    }
+);
 console.log('Fetched song: ', song1); // the id sent to server is wrong as 10
 
 // Collections
 
 var Songs = Backbone.Collection.extend({
-    model : Song
+    model : Song,
+    url: 'api/songs'
 });
 
 var songs = new Songs([
@@ -120,4 +128,6 @@ console.log('Song at c3:', songs.get('c3'));
 songs.remove(songs.at(0));
 console.log('After songs remove: ', songs);
 
+// Fetching collections
+songs.fetch();
 
