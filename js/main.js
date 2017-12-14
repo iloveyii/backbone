@@ -98,5 +98,26 @@ var song1 = new Song({id : 2});
 song.fetch({id : 2});
 console.log('Fetched song: ', song1); // the id sent to server is wrong as 10
 
+// Collections
+
+var Songs = Backbone.Collection.extend({
+    model : Song
+});
+
+var songs = new Songs([
+    new Song({title: 'Title 01'}),
+    new Song({title: 'Title 02'}),
+    new Song({title: 'Title 03'}),
+    new Song({title: 'Title 04'})
+]);
+
+// Add to collection
+songs.add(new Song({title: 'Title 05'}));
+console.log('The collection: ', songs);
+console.log('Song at 1:', songs.at(1)); // starting from 0 index
+console.log('Song at c3:', songs.get('c3'));
+// Remove from collection
+songs.remove(songs.at(0));
+console.log('After songs remove: ', songs);
 
 
