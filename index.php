@@ -26,6 +26,7 @@ $songs = [
     ],
 ];
 
+$content = 'This is default contents';
 $id = 0;
 $path = isset($_GET['path']) ? $_GET['path'] : '/';
 
@@ -37,31 +38,75 @@ if(count($matches) == 2) {
     $path = 'api/songs';
 }
 
-switch ($path) {
+if(rtrim($path, '/') == 'api/songs') {
 
-    case '/':
-        break;
+// find request type
+    $requestType = $_SERVER['REQUEST_METHOD'];
+    switch ($requestType) {
 
-    case 'api/songs':
+        case '/':
+            break;
 
-        header('Content-Type: application/json');
-        if($id == 0) {
+        case 'GET':
+            header('Content-Type: application/json');
+            if ($id == 0) {
+                echo json_encode($songs);
+            }
+
+        case 'GET':
+            header('Content-Type: application/json');
+            if ($id > 0) {
+                $song = array_filter($songs, function ($song) use ($id) {
+                    return $song['id'] == $id;
+                });
+                $song = empty($song) ? ['id' => 0] : array_shift($song);
+                echo json_encode($song);
+            }
+
+            break;
+
+        case 'POST':
+            header('Content-Type: application/json');
+            $song = $_POST['song'];
+            // $song = json_decode('{"id": 231, "author": "postmain"}', true);
+            $song = json_decode($song, true);
+
+            if (json_last_error() == JSON_ERROR_NONE) {
+                $songs[] = $song;
+                echo json_encode($songs);
+            } else {
+                echo json_encode([
+                    'error' => json_last_error()
+                ]);
+            }
+
+            break;
+
+        case 'DELETE':
+            header('Content-Type: application/json');
+            $id = $_GET['id'];
+            foreach ($songs as $index => $song) {
+                if ($id = $song['id']) {
+                    unset($songs[$index]);
+                    break;
+                }
+            }
             echo json_encode($songs);
-        } else {
-            $song = array_filter($songs, function ($song) use ($id) {
-                return $song['id'] == $id;
-            });
-            $song = empty($song) ? ['id' => 0] : array_shift($song);
-            echo json_encode($song);
-        }
 
-        die(0);
-        break;
+            break;
 
-    default:
-        $content = 'This is default contents';
+        default:
+            // $content = 'This is default contents';
+            // showHelp();
 
-}
+    }
+
+    function showHelp()
+    {
+        echo 'Possible end points are: <br />';
+        echo 'GET, POST, DELETE, PUT - api/songs <br />';
+    }
+} else {
 ?>
 
 <!DOCTYPE html>
@@ -91,3 +136,5 @@ switch ($path) {
 <script src="/js/main.js"></script>
 </body>
 </html>
+
+<?php } ?>

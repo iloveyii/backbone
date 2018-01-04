@@ -75,7 +75,7 @@ var Song = Model.extend({
 });
 
 // with instantiating
-var song = new Song({id: '10', title: 'Kan'});
+var song = new Song({id: 2, title: 'Kan'});
 // with set
 song.set('name', 'My fav song');
 // with set using object with multiple attributes
@@ -100,10 +100,11 @@ song.fetch({
             console.log('Resp: ', resp);
         },
         error: function () {
+            console.log('error in fetching song.');
         }
     }
 );
-console.log('Fetched song: ', song1); // the id sent to server is wrong as 10
+console.log('Fetched song: ', song); // the id sent to server is wrong as 10
 
 // Collections
 
